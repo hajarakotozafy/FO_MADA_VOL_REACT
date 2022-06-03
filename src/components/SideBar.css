@@ -1,0 +1,56 @@
+.nav {
+    background-color: #15171c;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navicon {
+    margin-left: 2rem;
+    font-size: 2rem;
+    height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.sidebarnav {
+    background-color: #15171c;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: 350ms;
+    z-index: 10;
+}
+
+.sidebarnavactive {
+    background-color: #15171c;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 350ms;
+    z-index: 10;
+}
+
+.sidebarwrap {
+    width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    .sidebarnav {
+        width: 100%
+    }
+
+    .sidebarnavactive {
+        width: 100%
+    }
+}
