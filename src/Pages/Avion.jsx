@@ -1,6 +1,22 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from '@material-ui/core';
 import { TableHead, Table, TableBody, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core';
+import * as FaIcons from 'react-icons/fa';
+import Styled from 'styled-components';
+import Popup from '../Component/Popup';
+import AvionForm from '../Component/AvionForm';
+
+const TableTool = Styled.div`
+    display: flex;
+    input {
+        width: 60%;
+        height: 40px;
+        margin: 0;
+    }
+    justify-content: space-between;
+    padding: 10px;
+`
 
 const useStyles = makeStyles(theme => ({
     table: {
@@ -18,10 +34,14 @@ const useStyles = makeStyles(theme => ({
             cursor: 'pointer',
         },
     },
+    newBtn: {
+        height: '40px',
+        right: '10px',
+        margin: '0'
+    }
 }))
 
 const Avion = () => {
-    const [avions, setAvions] = useState([]);
     const classes = useStyles();
 
     const pages = [5, 10, 25];
@@ -29,8 +49,10 @@ const Avion = () => {
     const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
     const [order, setOrder] = useState();
     const [orderBy, setOrderBy] = useState();
+    const [openPopup, setOpenPopup] = useState(false);
 
 
+    const [avions, setAvions] = useState([]);
     useEffect(async () => {
         await axios.get('http://localhost:3001/api/avion').then(res => {
             console.log('datas', res.data);
@@ -59,6 +81,16 @@ const Avion = () => {
 
     return (
         <>
+            <TableTool>
+                <input></input>
+                <Button
+                    className={classes.newBtn}
+                    startIcon={<FaIcons.FaPlus />}
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setOpenPopup(true)}
+                >Ajouter nouveau</Button>
+            </TableTool>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
@@ -112,6 +144,13 @@ const Avion = () => {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
+            <Popup
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+                title="Nouvel Avion"
+            >
+                <AvionForm />
+            </Popup>
         </>
     )
 }

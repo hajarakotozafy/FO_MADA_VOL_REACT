@@ -8,7 +8,8 @@ input {
 .formInput {
     display: flex;
     flex-direction: column;
-    /* width: 280px; */
+    /* border: 1px solid blue; */
+    width: 300px;
 }
 
 label {
@@ -16,7 +17,7 @@ label {
     color: gray;
 }
 
-span {
+.span {
     font-size: 12px;
     padding: 3px;
     color: red;
@@ -27,6 +28,6 @@ input:invalid[focused="true"] {
     border: 1px solid red;
 }
 
-input:invalid[focused="true"]~span {
+input:invalid[focused="true"]~.span {
     display: block;
 }
