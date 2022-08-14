@@ -23,8 +23,8 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
         '& thead th': {
             fontWeight: '600',
-            color: theme.palette.primary.main,
-            backgroundColor: theme.palette.primary.light,
+            color: 'white',
+            backgroundColor: theme.palette.primary.main,
         },
         '& tbody td': {
             fontWeight: '300',
@@ -38,6 +38,22 @@ const useStyles = makeStyles(theme => ({
         height: '40px',
         right: '10px',
         margin: '0'
+    },
+    editBtn: {
+        height: '30px',
+        width: '30px',
+        backgroundColor: theme.palette.primary.main,
+        padding: '5px',
+        margin: '0px 5px',
+        color: 'white'
+    },
+    deleteBtn: {
+        height: '30px',
+        width: '30px',
+        backgroundColor: theme.palette.error.main,
+        padding: '5px',
+        margin: '0px 5px',
+        color: 'white'
     }
 }))
 
@@ -50,14 +66,16 @@ const Avion = () => {
     const [order, setOrder] = useState();
     const [orderBy, setOrderBy] = useState();
     const [openPopup, setOpenPopup] = useState(false);
-
-
+    const [recordForEdit, setRecordForEdit] = useState(null);
     const [avions, setAvions] = useState([]);
-    useEffect(async () => {
+    const getData = async () => {
         await axios.get('http://localhost:3001/api/avion').then(res => {
             console.log('datas', res.data);
             setAvions(res.data);
         })
+    }
+    useEffect(() => {
+        getData();
     }, [])
 
     const handleChangePage = (event, newPage) => {
@@ -79,8 +97,13 @@ const Avion = () => {
         setOrderBy(cellId);
     }
 
+    const openInPopup = (item) => {
+        setRecordForEdit(item);
+        setOpenPopup(true);
+    }
+
     return (
-        <>
+        <div style={{ width: '100%', height: '100%' }}>
             <TableTool>
                 <input></input>
                 <Button
@@ -88,7 +111,10 @@ const Avion = () => {
                     startIcon={<FaIcons.FaPlus />}
                     variant="outlined"
                     color="primary"
-                    onClick={() => setOpenPopup(true)}
+                    onClick={() => {
+                        setOpenPopup(true);
+                        setRecordForEdit(null);
+                    }}
                 >Ajouter nouveau</Button>
             </TableTool>
             <Table className={classes.table}>
@@ -121,6 +147,9 @@ const Avion = () => {
                                 Numéro de vol
                             </TableSortLabel>
                         </TableCell>
+                        <TableCell key="actions">
+                            Actions
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -130,6 +159,10 @@ const Avion = () => {
                                 <TableCell>{item.designation}</TableCell>
                                 <TableCell>{item.nbPlaces}</TableCell>
                                 <TableCell>{item.numVol}</TableCell>
+                                <TableCell>
+                                    <Button onClick={() => openInPopup(item)} className={classes.editBtn} variant="contained"><FaIcons.FaEdit /></Button>
+                                    <Button className={classes.deleteBtn} variant="contained"><FaIcons.FaTrash /></Button>
+                                </TableCell>
                             </TableRow>
                         )
                     })}
@@ -149,9 +182,9 @@ const Avion = () => {
                 setOpenPopup={setOpenPopup}
                 title="Nouvel Avion"
             >
-                <AvionForm />
+                <AvionForm recordForEdit={recordForEdit} />
             </Popup>
-        </>
+        </div>
     )
 }
 

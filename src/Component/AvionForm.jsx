@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import FormInput from './FormInput';
 
-const AvionForm = () => {
+const AvionForm = (props) => {
+    const { recordForEdit } = props;
     const [values, setValues] = useState({
         design: "",
         nbPlaces: ""
@@ -10,7 +11,7 @@ const AvionForm = () => {
     const inputs = [
         {
             id: 1,
-            name: "design",
+            name: "designation",
             type: "text",
             placeholder: "Désignation de l'avion",
             errorMessage: "Veuillez entrez une désignation valide",
@@ -29,6 +30,13 @@ const AvionForm = () => {
         }
     ]
 
+    useEffect(() => {
+        if (recordForEdit != null) {
+            setValues({
+                ...recordForEdit
+            })
+        }
+    }, [recordForEdit])
     const handleChangeInput = e => {
         setValues({ ...values, [e.target.name]: e.target.value })
     }

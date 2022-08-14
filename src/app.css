@@ -30,6 +30,10 @@ h1 {
     margin-bottom: 30px;
 }
 
+body {
+    background-color: rgb(169, 169, 169);
+}
+
 /* input:invalid~button {
     background-color: #0000008f;
     cursor: not-allowed;
