@@ -5,7 +5,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import Avion from './Pages/Avion';
 import Vol from './Pages/Vol';
+import Login from './Pages/Login';
 import Reservation from './Pages/Reservation';
+import ReservationForm from './Component/ReservationForm';
+
 import Styled from 'styled-components';
 
 const App = () => {
@@ -13,16 +16,41 @@ const App = () => {
     <>
       {/* <Avion /> */}
       <Router>
-        <Navbar />
+
         <Switch>
-          <Route exact path='/' component={Home} />
+          <Route exact path='/Home'>
+            <Navbar />
+            <Container>
+              <Home />
+            </Container>
+          </Route>
           <Route path='/Avion'>
+            <Navbar />
             <Container>
               <Avion />
             </Container>
           </Route>
-          <Route path='/Vol' component={Vol} />
-          <Route path='/Reservation' component={Reservation} />
+          <Route path='/Vol'>
+            <Navbar />
+            <Container>
+              <Vol />
+            </Container>
+          </Route>
+          <Route path='/Reservation'>
+            <Navbar />
+            <Container>
+              <Reservation />
+            </Container>
+          </Route>
+          <Route path='/Reserve'>
+            <Navbar />
+            <Container>
+              <ReservationForm />
+            </Container>
+          </Route>
+          <Route path='/login'>
+            <Login />
+          </Route>
         </Switch>
       </Router>
     </>

@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import BarChart from '../Component/BarChart';
 
 const Home = () => {
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            window.location.href = "/login";
+        }
+    })
     return (
-        <div>Home</div>
+        <div><BarChart /></div>
     )
 }
 

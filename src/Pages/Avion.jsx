@@ -74,9 +74,16 @@ const Avion = () => {
             setAvions(res.data);
         })
     }
+
+    useEffect(() => {
+        if (!localStorage.getItem('user')) {
+            window.location.href = "/login";
+        }
+    })
+
     useEffect(() => {
         getData();
-    }, [])
+    }, [openPopup, avions])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -102,10 +109,20 @@ const Avion = () => {
         setOpenPopup(true);
     }
 
+    const handleDelete = (id) => {
+        axios.delete(`http://localhost:3001/api/avion/${id}`)
+            .then(res => {
+
+            })
+            .catch(err => {
+
+            })
+    }
+
     return (
         <div style={{ width: '100%', height: '100%' }}>
             <TableTool>
-                <input></input>
+                {/* <input></input> */}
                 <Button
                     className={classes.newBtn}
                     startIcon={<FaIcons.FaPlus />}
@@ -161,7 +178,7 @@ const Avion = () => {
                                 <TableCell>{item.numVol}</TableCell>
                                 <TableCell>
                                     <Button onClick={() => openInPopup(item)} className={classes.editBtn} variant="contained"><FaIcons.FaEdit /></Button>
-                                    <Button className={classes.deleteBtn} variant="contained"><FaIcons.FaTrash /></Button>
+                                    <Button onClick={() => handleDelete(item.numAvion)} className={classes.deleteBtn} variant="contained"><FaIcons.FaTrash /></Button>
                                 </TableCell>
                             </TableRow>
                         )
@@ -182,7 +199,7 @@ const Avion = () => {
                 setOpenPopup={setOpenPopup}
                 title="Nouvel Avion"
             >
-                <AvionForm recordForEdit={recordForEdit} />
+                <AvionForm recordForEdit={recordForEdit} setOpenPopup={setOpenPopup} />
             </Popup>
         </div>
     )
